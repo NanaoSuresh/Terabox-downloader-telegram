@@ -4,7 +4,7 @@ async function main() {
   const { sendFile } = require("./utils");
   const express = require("express");
 
-  const { Telegraf } = require('telegraf');
+
 
 // Replace 'YOUR_BOT_TOKEN_HERE' with your actual bot token
 const bot = new Telegraf('7354249291:AAH3IyBMpHC0CCdrhA8VDcEjhP3u3fs0PNU');
