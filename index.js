@@ -4,12 +4,9 @@ async function main() {
   const { sendFile } = require("./utils");
   const express = require("express");
 
+  // Replace 'YOUR_BOT_TOKEN_HERE' with your actual bot token
+  const bot = new Telegraf('7354249291:AAH3IyBMpHC0CCdrhA8VDcEjhP3u3fs0PNU');
 
-
-// Replace 'YOUR_BOT_TOKEN_HERE' with your actual bot token
-const bot = new Telegraf('7354249291:AAH3IyBMpHC0CCdrhA8VDcEjhP3u3fs0PNU');
-
-  
   bot.start(async (ctx) => {
     try {
       ctx.reply(
@@ -20,34 +17,38 @@ const bot = new Telegraf('7354249291:AAH3IyBMpHC0CCdrhA8VDcEjhP3u3fs0PNU');
         ]),
       );
     } catch (e) {
-      console.error(e);
+      console.error("Error in bot.start:", e);
     }
   });
 
   bot.on("message", async (ctx) => {
     if (ctx.message && ctx.message.text) {
       const messageText = ctx.message.text;
+      console.log("Received message:", messageText);
+
       if (
         messageText.includes("terabox.com") ||
         messageText.includes("teraboxapp.com")
       ) {
         const parts = messageText.split("/");
         const linkID = parts[parts.length - 1];
+        console.log("Extracted link ID:", linkID);
 
-        ctx.reply(linkID)
+        ctx.reply(linkID);
 
-        const details = await getDetails(messageText);
-        if (details && details.direct_link) {
-          try {
-            ctx.reply(`Sending Files Please Wait.!!`);
+        try {
+          const details = await getDetails(messageText);
+          console.log("Details received:", details);
+
+          if (details && details.direct_link) {
+            ctx.reply("Sending Files Please Wait.!!");
             sendFile(details.direct_link, ctx);
-          } catch (e) {
-            console.error(e); // Log the error for debugging
+          } else {
+            ctx.reply('Something went wrong 🙃');
           }
-        } else {
-          ctx.reply('Something went wrong 🙃');
+        } catch (e) {
+          console.error("Error in getDetails or sendFile:", e);
         }
-        console.log(details);
       } else {
         ctx.reply("Please send a valid Terabox link.");
       }
@@ -60,8 +61,8 @@ const bot = new Telegraf('7354249291:AAH3IyBMpHC0CCdrhA8VDcEjhP3u3fs0PNU');
   // Set the bot API endpoint
   app.use(await bot.createWebhook({ domain: process.env.WEBHOOK_URL }));
 
-  app.listen(process.env.PORT || 3000, () => console.log("Server Started"));
-  ctx.reply(`First Text`);
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => console.log(`Server started on port ${port}`));
 }
 
 main();
