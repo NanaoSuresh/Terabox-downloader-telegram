@@ -1,4 +1,34 @@
 async function main() {
+const axios = require('axios');
+
+// Your API key (Bot token)
+const apiKey = "7354249291:AAH3IyBMpHC0CCdrhA8VDcEjhP3u3fs0PNU";
+
+// The message you want to send
+const message = "Hello, world!";
+
+// The chat ID of the recipient
+const chatId = "<recipient_chat_id>";
+
+// URL for sending the message
+const url = `https://api.telegram.org/bot${apiKey}/sendMessage`;
+async function sendMessage() {
+    try {
+        const response = await axios.post(url, {
+            chat_id: chatId,
+            text: message
+        });
+        console.log("Message sent successfully!", response.data);
+    } catch (error) {
+        console.error("Failed to send message:", error.response ? error.response.data : error.message);
+    }
+}
+
+// Run the sendMessage function
+sendMessage();
+
+
+  
   const { Telegraf, Markup } = require("telegraf");
   const { getDetails } = require("./api");
   const { sendFile } = require("./utils");
