@@ -27,10 +27,10 @@ async function main() {
         messageText.includes("terabox.com") ||
         messageText.includes("teraboxapp.com")
       ) {
-        //const parts = messageText.split("/");
-        //const linkID = parts[parts.length - 1];
+        const parts = messageText.split("/");
+        const linkID = parts[parts.length - 1];
 
-        // ctx.reply(linkID)
+        ctx.reply(linkID)
 
         const details = await getDetails(messageText);
         if (details && details.direct_link) {
