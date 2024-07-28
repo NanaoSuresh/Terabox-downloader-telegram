@@ -8,7 +8,8 @@ async function main() {
 
 // Replace 'YOUR_BOT_TOKEN_HERE' with your actual bot token
 const bot = new Telegraf('7354249291:AAH3IyBMpHC0CCdrhA8VDcEjhP3u3fs0PNU');
-
+ ctx.reply(`First Text`);
+  
   bot.start(async (ctx) => {
     try {
       ctx.reply(
